@@ -17,9 +17,19 @@
         "irc": "irc://irc.freenode.org/Ethna",
         "issues": "https://github.com/ethna/ethna/issues"
     },
-    "bin": [ "bin/ethna.sh"],
+    "bin": [ "bin/ethna"],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.3",
+        "symfony/console": "~2.1",
+        "symfony/event-dispatcher": "~2.1"
+    },
+    "require-dev": {
+        "ethna/ethna-i18n": "dev-master",
+        "ethna/ethna-urlhandler": "dev-master",
+        "ethna/ethna-db": "dev-master",
+        "ethna/ethna-generator": "dev-master",
+        "ethna/ethna-soap": "dev-master",
+        "ethna/ethna": "dev-master"
     },
     "autoload": {
         "psr-0": {
