@@ -157,7 +157,7 @@ class Ethna_Handle
             return Ethna::raiseError("no such class $class");
         }
 
-        $global_controller = $GLOBALS['_Ethna_controller'];
+        $global_controller = Ethna_Controller::getInstance();
         $app_controller[$app_dir] = new $class(GATEWAY_CLI);
         $GLOBALS['_Ethna_controller'] = $global_controller;
         Ethna::clearErrorCallback();
