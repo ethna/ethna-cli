@@ -1,42 +1,36 @@
 <?php
-// vim: foldmethod=marker
-/**
- *  ClearCache.php
- *
- *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *  @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
- *  @package    Ethna
- *  @version    $Id$
- */
+namespace Ethna\Console\Command;
 
-require_once ETHNA_BASE . '/class/PearWrapper.php';
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-// {{{ Ethna_Plugin_Handle_ClearCache
-/**
- *  clear-cache handler
- *
- *  @author     ICHII Takashi <ichii386@schweetheart.jp>
- *  @access     public
- *  @package    Ethna
- */
-class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
+use Ethna_Controller;
+use Ethna_Generator;
+use Ethna_Util;
+use Ethna_Handle;
+use Ethna;
+
+class ClearCacheCommand extends AddActionCommand
 {
-    /**
-     *  clear cache files.
-     *
-     *  @access public
-     *  @todo   implement Ethna_Renderer::clear_cache();
-     *  @todo   implement Ethna_Plugin_Cachemanager::clear_cache();
-     *  @todo   avoid echo, printf
-     */
-    function perform()
+    protected function configure()
     {
-        $r = $this->_getopt(array('basedir=', 
-                                   'any-tmp-files', 'smarty', 'pear', 'cachemanager'));
-        if (Ethna::isError($r)) {
-            return $r;
-        }
-        list($args,) = $r;
+        $this->setName('clear-cache')
+            ->addArgument("action", null, InputOption::VALUE_REQUIRED, "action name")
+            ->addOption("basedir", null, InputOption::VALUE_OPTIONAL, "base dir")
+            ->addOption("skelfile", null, InputOption::VALUE_OPTIONAL, "action class skelton")
+            ->addOption("locale", "ja_JP", InputOption::VALUE_OPTIONAL, "locale")
+            ->addOption("encoding", "UTF-8", InputOption::VALUE_OPTIONAL, "utf8")
+            ->addOption("gateway", "www", InputOption::VALUE_OPTIONAL, "www|cli|xmlrpc")
+            ->setDescription('add new template to project');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $action_name = $input->getArgument("action");
+        $opt_list = array();
 
         $basedir = isset($args['basedir']) ? realpath(end($args['basedir'])) : getcwd();
         $controller = Ethna_Handle::getAppController($basedir);
@@ -54,6 +48,7 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
             }
             echo " done\n";
         }
+
 
         if (isset($args['cachemanager']) || isset($args['any-tmp-files'])) {
             echo "cleaning Ethna_Plugin_Cachemanager caches...";
@@ -79,31 +74,4 @@ class Ethna_Plugin_Handle_ClearCache extends Ethna_Plugin_Handle
 
         return true;
     }
-
-    // {{{ getDescription()
-    /**
-     *  @access public
-     */
-    function getDescription()
-    {
-        return <<<EOS
-clear project's cache files:
-    {$this->id} [-b|--basedir=dir] [-a|--any-tmp-files] [-s|--smarty] [-p|--pear] [-c|--cachemanager]
-
-EOS;
-    }
-    // }}}
-
-    // {{{ getUsage()
-    /**
-     *  @access public
-     */
-    function getUsage()
-    {
-        return <<<EOS
-ethna {$this->id} [-b|--basedir=dir] [-a|--any-tmp-files] [-s|--smarty] [-p|--pear] [-c|--cachemanager]
-EOS;
-    }
-    // }}}
 }
-// }}}

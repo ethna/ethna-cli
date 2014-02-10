@@ -26,6 +26,10 @@ class Application extends BaseApplication
     public function setupCommands()
     {
         $this->add(new Command\AddActionCommand());
+        $this->add(new Command\AddTemplateCommand());
+        $this->add(new Command\AddEntryPointCommand());
+        $this->add(new Command\AddViewCommand());
+        $this->add(new Command\ClearCacheCommand());
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
