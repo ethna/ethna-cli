@@ -14,6 +14,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Finder\Finder;
+
+use Ethna_Handle;
 
 class Application extends BaseApplication
 {
@@ -30,6 +33,20 @@ class Application extends BaseApplication
         $this->add(new Command\AddEntryPointCommand());
         $this->add(new Command\AddViewCommand());
         $this->add(new Command\ClearCacheCommand());
+
+        $controller = Ethna_Handle::getAppController(getcwd());
+        $bindir = $controller->getDirectory("bin");
+
+        $finder = new Finder();
+        $finder->in($bindir);
+        foreach ($finder as $file) {
+            /** @var \SplFileInfo $file */
+            require $file->getRealPath();
+            $class = $controller->getAppId() . "_" . $file->getBasename(".php");
+            if (class_exists($class)) {
+                $this->add(new $class);
+            }
+        }
     }
 
     public function doRun(InputInterface $input, OutputInterface $output)
