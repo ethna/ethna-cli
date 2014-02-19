@@ -37,8 +37,8 @@ class Ethna_Plugin_Handle extends Ethna_Plugin_Abstract
         parent::__construct($controller, $type, $name);
 
         $id = $name;
-        $id = preg_replace('/^([A-Z])/e', "strtolower('\$1')", $id);
-        $id = preg_replace('/([A-Z])/e', "'-' . strtolower('\$1')", $id);
+        $id = preg_replace_callback('/^([A-Z])/', function(array $matches){return strtolower($matches[1]);}, $id);
+        $id = preg_replace_callback('/([A-Z])/', function(array $matches){return '-' . strtolower($matches[1]);}, $id);
         $this->id = $id;
     }
 
