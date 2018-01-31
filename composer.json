@@ -1,10 +1,9 @@
 {
     "name": "ethna/ethna-cli",
-    "version": "2.6.0-dev",
     "description": "web application framework.",
     "type": "library",
     "keywords": [ "framework", "ethna" ],
-    "license": "BSD-License",
+    "license": "BSD-3-Clause",
     "homepage": "https://github.com/ethna/ethna",
     "authors": [
         { "name": "Masaki Fujimoto", "email": "fujimoto@php.net", "role" : "Administrator"},
@@ -14,7 +13,6 @@
         { "name": "ethna contributors", "homepage": "https://github.com/ethna/ethna/blob/master/AUTHORS" }
     ],
     "support" : {
-        "irc": "irc://irc.freenode.org/Ethna",
         "issues": "https://github.com/ethna/ethna/issues"
     },
     "bin": [ "bin/ethna"],
@@ -24,16 +22,21 @@
         "symfony/event-dispatcher": "~2.1"
     },
     "require-dev": {
-        "ethna/ethna-i18n": "dev-master",
-        "ethna/ethna-urlhandler": "dev-master",
-        "ethna/ethna-db": "dev-master",
-        "ethna/ethna-generator": "dev-master",
-        "ethna/ethna-soap": "dev-master",
-        "ethna/ethna": "dev-master"
+        "ethna/ethna-i18n": "2.7.*@dev",
+        "ethna/ethna-urlhandler": "2.7.*@dev",
+        "ethna/ethna-db": "2.7.*@dev",
+        "ethna/ethna-generator": "2.7.*@dev",
+        "ethna/ethna-soap": "2.7.*@dev",
+        "ethna/ethna": "2.7.*@dev"
     },
     "autoload": {
         "psr-0": {
             "Ethna": "class"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.7.x-dev"
         }
     }
 }
